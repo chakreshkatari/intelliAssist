@@ -1,0 +1,49 @@
+Artificial Intelligence: An Overview
+
+Artificial Intelligence (AI) is the field of computer science focused on building systems
+that can perform tasks which normally require human intelligence. These tasks include
+understanding natural language, recognizing images, making decisions, and learning from
+experience.
+
+Machine Learning, a subset of AI, allows systems to learn patterns from data rather than
+being explicitly programmed with rules. Deep Learning, a further subset of Machine Learning,
+uses multi-layered neural networks to model complex patterns in large datasets. Deep
+Learning has driven major advances in computer vision, speech recognition, and natural
+language processing over the last decade.
+
+Natural Language Processing (NLP) is the branch of AI concerned with enabling computers to
+understand, interpret, and generate human language. Modern NLP systems rely heavily on
+Transformer architectures, introduced in the 2017 paper "Attention Is All You Need". The
+Transformer architecture uses a mechanism called self-attention to weigh the importance of
+different words in a sentence relative to one another, which allows models to capture
+long-range dependencies in text far more effectively than earlier recurrent neural network
+approaches.
+
+BERT (Bidirectional Encoder Representations from Transformers) is a landmark Transformer
+model released by Google in 2018. Unlike earlier language models that read text in one
+direction, BERT is trained bidirectionally, allowing it to build a deeper understanding of
+context. BERT and its many derivatives, including sentence-transformer models, are widely
+used today to convert text into dense numerical vectors called embeddings. These embeddings
+place semantically similar pieces of text close together in vector space, which enables
+semantic search: finding documents that are conceptually related to a query even when they
+do not share the same exact keywords.
+
+Retrieval-Augmented Generation (RAG) is an architecture that combines a retrieval system
+with a generative language model. Instead of relying purely on knowledge memorized during
+training, a RAG system first retrieves relevant chunks of text from an external knowledge
+base, typically stored in a vector database such as FAISS or ChromaDB, and then supplies
+those chunks as context to a generative model when producing an answer. This approach
+reduces hallucination, allows the system to cite its sources, and lets the knowledge base be
+updated without retraining the underlying model.
+
+A common alternative to embedding-based semantic search is TF-IDF (Term Frequency-Inverse
+Document Frequency), a classical statistical technique from information retrieval. TF-IDF
+represents documents as sparse vectors of weighted word frequencies and measures similarity
+using cosine similarity. TF-IDF is fast, requires no training, and works well for exact
+keyword matches, but it cannot capture semantic meaning or synonyms the way BERT-based
+embeddings can.
+
+Sentiment analysis is another common NLP task, in which a system classifies the emotional
+tone of a piece of text as positive, negative, or neutral. Intent detection is a related task
+that identifies what a user is trying to accomplish with a piece of text, such as asking a
+question, requesting a summary, or making a complaint.
