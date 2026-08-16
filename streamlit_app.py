@@ -2,25 +2,30 @@ import os
 import sys
 import streamlit as st
 
-# MUST BE THE FIRST STREAMLIT COMMAND
+# 1. MUST be the very first Streamlit call
 st.set_page_config(
     page_title="IntelliAssist AI",
     page_icon="🤖",
     layout="wide"
 )
 
+# 2. Add both root and 'src' folders to Python's search path
+# (This permanently fixes import mismatches across ALL sub-modules)
+root_dir = os.path.dirname(os.path.abspath(__file__))
+src_dir = os.path.join(root_dir, "src")
+
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
+
+# 3. Load environment & module imports
 from dotenv import load_dotenv
 load_dotenv()
 
 from src.rag_pipeline import DocumentAssistant
 from src.document_loader import SUPPORTED_EXTENSIONS
 from src.sentiment_intent import analyze_query
-"""
-IntelliAssist AI - Smart Document AI Assistant
-Streamlit front-end tying together: document upload, RAG chatbot, semantic
-search, summarisation, sentiment/intent analysis, source citations, and
-persisted conversation history (persisted within the browser session).
-"""
 
 import os
 import sys
