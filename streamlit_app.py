@@ -1,12 +1,20 @@
-import sys
 import os
+import sys
+import streamlit as st
 
-# Map 'src' module requests directly to current root directory
-sys.path.insert(0, os.path.dirname(__file__))
-import types
-src_module = types.ModuleType('src')
-src_module.__path__ = [os.path.dirname(__file__)]
-sys.modules['src'] = src_module
+# MUST BE THE FIRST STREAMLIT COMMAND
+st.set_page_config(
+    page_title="IntelliAssist AI",
+    page_icon="🤖",
+    layout="wide"
+)
+
+from dotenv import load_dotenv
+load_dotenv()
+
+from src.rag_pipeline import DocumentAssistant
+from src.document_loader import SUPPORTED_EXTENSIONS
+from src.sentiment_intent import analyze_query
 """
 IntelliAssist AI - Smart Document AI Assistant
 Streamlit front-end tying together: document upload, RAG chatbot, semantic
