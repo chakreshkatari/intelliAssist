@@ -13,11 +13,11 @@ import time
 import streamlit as st
 from dotenv import load_dotenv
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.dirname(__file__))
 
-from src.rag_pipeline import DocumentAssistant
-from src.document_loader import SUPPORTED_EXTENSIONS
-from src.sentiment_intent import analyze_query
+from rag_pipeline import DocumentAssistant
+from document_loader import SUPPORTED_EXTENSIONS
+from sentiment_intent import analyze_query
 
 load_dotenv()
 
