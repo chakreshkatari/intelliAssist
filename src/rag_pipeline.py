@@ -26,11 +26,11 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 
 from langchain.prompts import PromptTemplate
-
-from embeddings import get_embedder, BaseEmbedder
-from vector_store import FaissVectorStore, SearchResult
-from tfidf_search import TfidfSearchIndex
-from sentiment_intent import analyze_query
+from src.document_loader import Chunk, load_and_chunk
+from src.embeddings import get_embedder, BaseEmbedder
+from src.vector_store import FaissVectorStore, SearchResult
+from src.tfidf_search import TfidfSearchIndex
+from src.sentiment_intent import analyze_query
 
 RAG_PROMPT = PromptTemplate(
     input_variables=["context", "question"],
