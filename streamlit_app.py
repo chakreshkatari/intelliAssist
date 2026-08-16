@@ -32,20 +32,9 @@ import sys
 import tempfile
 import time
 
-import streamlit as st
-from dotenv import load_dotenv
-
-sys.path.insert(0, os.path.dirname(__file__))
 
 
 
-load_dotenv()
-
-st.set_page_config(
-    page_title="IntelliAssist AI",
-    page_icon="🧠",
-    layout="wide",
-)
 
 # --------------------------------------------------------------------------
 # Session state
