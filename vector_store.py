@@ -14,7 +14,7 @@ from typing import List, Optional
 import numpy as np
 import faiss
 
-from src.document_loader import Chunk
+from document_loader import Chunk
 
 
 @dataclass
