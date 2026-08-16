@@ -1,3 +1,12 @@
+import sys
+import os
+
+# Map 'src' module requests directly to current root directory
+sys.path.insert(0, os.path.dirname(__file__))
+import types
+src_module = types.ModuleType('src')
+src_module.__path__ = [os.path.dirname(__file__)]
+sys.modules['src'] = src_module
 """
 IntelliAssist AI - Smart Document AI Assistant
 Streamlit front-end tying together: document upload, RAG chatbot, semantic
@@ -15,9 +24,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-from rag_pipeline import DocumentAssistant
-from document_loader import SUPPORTED_EXTENSIONS
-from sentiment_intent import analyze_query
+
 
 load_dotenv()
 
