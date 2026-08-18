@@ -8,6 +8,8 @@ import streamlit as st
 import json
 import os
 
+st.set_page_config(page_title="IntelliAssist AI", page_icon="🧠", layout="wide")
+
 # Local user database file
 USER_DB = "users.json"
 
@@ -85,11 +87,6 @@ from src.sentiment_intent import analyze_query
 
 load_dotenv()
 
-st.set_page_config(
-    page_title="IntelliAssist AI",
-    page_icon="🧠",
-    layout="wide",
-)
 
 GENERATION_MODE_LABELS = {
     "llm": ":blue[LLM-generated]",
