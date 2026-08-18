@@ -9,7 +9,7 @@ can be traced back to a source for citation.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 import numpy as np
 import faiss
@@ -32,26 +32,49 @@ class FaissVectorStore:
     """
 
     def __init__(self, dim: int):
-        self.dim = dim
-        self.index = faiss.IndexFlatIP(dim)
+        if not isinstance(dim, (int, np.integer)) or dim <= 0:
+            raise ValueError(f"Embedding dimension must be a positive integer, got {dim!r}")
+        self.dim = int(dim)
+        self.index = faiss.IndexFlatIP(self.dim)
         self.chunks: List[Chunk] = []
 
     def add(self, embeddings: np.ndarray, chunks: List[Chunk]) -> None:
+        if embeddings is None or len(embeddings) == 0:
+            raise ValueError("No embeddings were provided to add() -- embedding generation may have failed.")
         if embeddings.shape[0] != len(chunks):
-            raise ValueError("Number of embeddings must match number of chunks")
+            raise ValueError(
+                f"Number of embeddings ({embeddings.shape[0]}) must match number of chunks ({len(chunks)})"
+            )
         if embeddings.shape[1] != self.dim:
             raise ValueError(
-                f"Embedding dim {embeddings.shape[1]} does not match index dim {self.dim}"
+                f"Embedding dim {embeddings.shape[1]} does not match index dim {self.dim}. "
+                f"This usually means the embedder changed between ingestions -- try re-uploading "
+                f"all documents."
             )
-        self.index.add(np.ascontiguousarray(embeddings, dtype="float32"))
+        if not np.isfinite(embeddings).all():
+            raise ValueError("Embeddings contain NaN or infinite values -- cannot index them.")
+
+        try:
+            self.index.add(np.ascontiguousarray(embeddings, dtype="float32"))
+        except Exception as exc:  # noqa: BLE001
+            raise ValueError(f"FAISS failed to index the new embeddings: {exc}") from exc
         self.chunks.extend(chunks)
 
     def search(self, query_embedding: np.ndarray, top_k: int = 4) -> List[SearchResult]:
         if self.index.ntotal == 0:
             return []
+        if top_k <= 0:
+            return []
+
         query_embedding = np.ascontiguousarray(query_embedding, dtype="float32").reshape(1, -1)
+        if query_embedding.shape[1] != self.dim:
+            raise ValueError(
+                f"Query embedding dim {query_embedding.shape[1]} does not match index dim {self.dim}."
+            )
+
         top_k = min(top_k, self.index.ntotal)
         scores, indices = self.index.search(query_embedding, top_k)
+
         results: List[SearchResult] = []
         for score, idx in zip(scores[0], indices[0]):
             if idx == -1:
