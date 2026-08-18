@@ -4,7 +4,72 @@ Streamlit front-end tying together: document upload, RAG chatbot, semantic
 search, summarisation, sentiment/intent analysis, source citations, and
 persisted conversation history (persisted within the browser session).
 """
+import streamlit as st
+import json
+import os
 
+# Local user database file
+USER_DB = "users.json"
+
+def load_users():
+    if os.path.exists(USER_DB):
+        with open(USER_DB, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_users(users):
+    with open(USER_DB, "w") as f:
+        json.dump(users, f)
+
+def render_auth_page():
+    st.title("🔐 IntelliAssist AI — Sign In")
+    tab_login, tab_register = st.tabs(["Login", "Register"])
+    users = load_users()
+
+    with tab_login:
+        email = st.text_input("Email Address", key="login_email")
+        password = st.text_input("Password", type="password", key="login_pass")
+        if st.button("Login", type="primary"):
+            if email in users and users[email] == password:
+                st.session_state["logged_in"] = True
+                st.session_state["user_email"] = email
+                st.success("Login successful!")
+                st.rerun()
+            else:
+                st.error("Invalid email or password.")
+
+    with tab_register:
+        reg_email = st.text_input("Email Address", key="reg_email")
+        reg_pass = st.text_input("Password", type="password", key="reg_pass")
+        confirm_pass = st.text_input("Confirm Password", type="password", key="confirm_pass")
+        if st.button("Register"):
+            if not reg_email or not reg_pass:
+                st.warning("Please fill out all fields.")
+            elif reg_pass != confirm_pass:
+                st.error("Passwords do not match!")
+            elif reg_email in users:
+                st.error("Account already exists. Please log in.")
+            else:
+                users[reg_email] = reg_pass
+                save_users(users)
+                st.success("Account created successfully! You can now log in.")
+
+# ---------------------------------------------------------
+# AUTHENTICATION GATE
+# ---------------------------------------------------------
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+
+if not st.session_state["logged_in"]:
+    render_auth_page()
+    st.stop()  # Prevents the rest of the RAG app from loading
+
+# (Your main chatbot UI and RAG code runs below here)
+st.sidebar.write(f"Logged in as: **{st.session_state['user_email']}**")
+if st.sidebar.button("Logout"):
+    st.session_state["logged_in"] = False
+    st.rerun()
+    
 import os
 import sys
 import tempfile
