@@ -14,8 +14,8 @@
 # sentence-transformers below and rely on the free local fallback embedder.
 
 streamlit==1.38.0
-langchain==0.2.16
-langchain-community==0.2.16
+langchain>=0.2.16
+langchain-community>=0.2.16
 faiss-cpu==1.8.0.post1
 pypdf==4.3.1
 python-docx==1.1.2
