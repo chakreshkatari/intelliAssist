@@ -30,7 +30,7 @@ import re
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 
 from src.document_loader import Chunk, load_and_chunk, normalize_whitespace
 from src.embeddings import get_embedder, BaseEmbedder
