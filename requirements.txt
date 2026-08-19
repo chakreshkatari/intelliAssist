@@ -1,41 +1,20 @@
-# IntelliAssist AI - requirements.txt
-# Install with: pip install -r requirements.txt
-#
-# NOTE on torch/sentence-transformers:
-# sentence-transformers pulls in PyTorch. On a normal machine `pip install`
-# will resolve a suitable torch build automatically. For a smaller/faster
-# install on CPU-only deployment targets (Streamlit Cloud / Render free
-# tier), you can instead install the CPU-only torch wheel first:
-#   pip install torch --index-url https://download.pytorch.org/whl/cpu
-#   pip install -r requirements.txt
-# The app also runs without sentence-transformers/torch at all (it falls
-# back automatically to a local TF-IDF+SVD embedder), so if install size is
-# a concern for your deployment target you may comment out
-# sentence-transformers below and rely on the free local fallback embedder.
-
 streamlit==1.38.0
-langchain>=0.2.16
-langchain-community>=0.2.16
-faiss-cpu==1.8.0.post1
+python-dotenv==1.0.1
 pypdf==4.3.1
 python-docx==1.1.2
 scikit-learn==1.5.1
 numpy==1.26.4
 pandas==2.2.2
-python-dotenv==1.0.1
 vaderSentiment==3.3.2
 sentence-transformers==3.0.1
+faiss-cpu==1.8.0.post1
 
-# Optional: only needed if you set OPENAI_API_KEY / GOOGLE_API_KEY in .env
-# to swap in a paid LLM for the generation step instead of the default free
-# local extractive generator. Uncomment the one(s) you need.
-# langchain-openai==0.1.23
+# LangChain packages
+langchain>=0.3.0
+langchain-community>=0.3.0
 langchain-google-genai>=2.0.0
 google-generativeai>=0.8.0
 
-# Testing
+# Testing & Utilities
 pytest==8.3.2
-
-# Used only to generate the bundled sample PDF in data/sample_docs/ (not
-# required at runtime by the app itself)
 reportlab==4.2.2
