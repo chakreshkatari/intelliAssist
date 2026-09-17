@@ -2,7 +2,7 @@
 
 An AI-powered chatbot that lets users upload documents (PDF, TXT, DOCX) and ask
 questions about them using a Retrieval-Augmented Generation (RAG) pipeline —
-built as an AI Internship Capstone Project for LaunchED.
+built as an AI Internship Capstone Project for Digital Hercules Innovation.
 
 ## Problem Statement
 
@@ -188,5 +188,5 @@ network-restricted-sandbox fallback behaviour observed during testing.
 
 ## License
 
-Built for educational purposes as part of the LaunchED AI Internship
+Built for educational purposes as part of the Digital Hercules Innovation AI Internship
 Capstone Project.
